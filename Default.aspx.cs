@@ -41,5 +41,23 @@ namespace Todos2
 
             textbox.Text = "";
         }
+        public void EditTask(object sender, CommandEventArgs e)
+        {
+            int index = Convert.ToInt32(e.CommandArgument);
+            Button editbtn = (Button)sender;
+            RepeaterItem item = (RepeaterItem)editbtn.NamingContainer;
+            TextBox editText = (TextBox)item.FindControl("editText");
+            Button saveBtn = (Button)item.FindControl("saveBtn");
+            Button delBtn = (Button)item.FindControl("deleteBtn");
+            editbtn.Visible = false;
+            editText.Visible = true;
+            saveBtn.Visible = true;
+            delBtn.Visible = false;
+        }
+        public void SaveTask(object sender, CommandEventArgs e)
+        {
+            int index = Convert.ToInt32(e.CommandArgument);
+
         }
     }
+ }

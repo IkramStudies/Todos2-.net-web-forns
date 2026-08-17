@@ -10,6 +10,10 @@
                 <ItemTemplate>
                     <div>
                         <%# Container.DataItem %>
+                        <asp:Button  runat="server" Text="edit" ID="editbtn" CommandArgument="<%#Container.ItemIndex %>" OnCommand="EditTask"/>
+                        <asp:Button  runat="server" ID="deleteBtn" Text="delete"/>
+                        <asp:TextBox runat="server" ID="editText" Visible="false"/>
+                        <asp:Button runat="server" ID="saveBtn" CommandArgument="<%#Container.ItemIndex %>" OnCommand="SaveTask" Text="save" Visible="false"/>
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
