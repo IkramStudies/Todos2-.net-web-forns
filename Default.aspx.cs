@@ -23,7 +23,7 @@ namespace Todos2
                 ViewState["Tasks"] = value;
             }
         }
-
+        // name of repeater is tasksList
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -49,15 +49,48 @@ namespace Todos2
             TextBox editText = (TextBox)item.FindControl("editText");
             Button saveBtn = (Button)item.FindControl("saveBtn");
             Button delBtn = (Button)item.FindControl("deleteBtn");
+            Label taskText = (Label)item.FindControl("tasktext");
+            Button cancelBtn = (Button)item.FindControl("cancelBtn");
+            editText.Text = Tasks[index];
+            taskText.Visible = false;
             editbtn.Visible = false;
             editText.Visible = true;
             saveBtn.Visible = true;
             delBtn.Visible = false;
+            cancelBtn.Visible = true;
         }
         public void SaveTask(object sender, CommandEventArgs e)
         {
+            Button savebtn = (Button)sender;
+            RepeaterItem repeater = (RepeaterItem)savebtn.NamingContainer;
+            TextBox editText = (TextBox)repeater.FindControl("editText");
+            Label taskText = (Label)repeater.FindControl("tasktext");
+            Button delBtn = (Button)repeater.FindControl("deleteBtn");
             int index = Convert.ToInt32(e.CommandArgument);
-
+            Tasks[index] = editText.Text;
+            taskText.Visible = true;
+            editText.Visible = false;
+            savebtn.Visible = false;
+            tasksList.DataSource = Tasks;
+            tasksList.DataBind();
+        }
+        public void CancelEdit(object sender, CommandEventArgs e)
+        {
+            Button cancelBtn = (Button)sender;
+            RepeaterItem repeater = (RepeaterItem)cancelBtn.NamingContainer;
+            TextBox editText = (TextBox)repeater.FindControl("editText");
+            int index = Convert.ToInt32(e.CommandArgument);
+            Tasks[index] = editText.Text;
+            cancelBtn.Visible = false;
+            tasksList.DataSource = Tasks;
+            tasksList.DataBind();
+        }
+        public void DeleteTask(object sender, CommandEventArgs e)
+        {
+            int index = Convert.ToInt32(e.CommandArgument);
+            Tasks.RemoveAt(index);
+            tasksList.DataSource = Tasks;
+            tasksList.DataBind();
         }
     }
  }
